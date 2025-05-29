@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Portfolio Generator</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 AI Portfolio Generator</h1>
+            <p class="subtitle">Transform your experience into a compelling developer portfolio using AI</p>
+        </header>
+
+        <main>
+            <section class="input-section">
+                <h2>Tell us about yourself</h2>
+                <form id="portfolioForm">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required 
+                               placeholder="John Doe">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="title">Current Title/Role</label>
+                        <input type="text" id="title" name="title" required 
+                               placeholder="Full Stack Developer">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="experience">Years of Experience</label>
+                        <input type="text" id="experience" name="experience" 
+                               placeholder="3 years">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="skills">Skills (comma-separated)</label>
+                        <input type="text" id="skills" name="skills" required 
+                               placeholder="JavaScript, React, Node.js, Python, AWS">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="about">Brief About Yourself</label>
+                        <textarea id="about" name="about" rows="3" 
+                                  placeholder="Passionate about building scalable web applications..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="projects">Describe a Recent Project</label>
+                        <textarea id="projects" name="projects" rows="3" 
+                                  placeholder="Built an e-commerce platform using React and Node.js..."></textarea>
+                    </div>
+
+                    <button type="submit" class="generate-btn">
+                        <span class="btn-text">Generate Portfolio</span>
+                        <span class="loading-spinner" style="display: none;">⏳ Generating...</span>
+                    </button>
+                </form>
+            </section>
+
+            <section id="portfolioOutput" class="output-section" style="display: none;">
+                <div class="output-header">
+                    <h2>Your Generated Portfolio</h2>
+                    <button class="copy-btn" onclick="copyPortfolio()">📋 Copy</button>
+                </div>
+                <div id="portfolioContent" class="portfolio-content">
+                    <!-- Generated content will go here -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Powered by Groq AI • Built for developers, by developers</p>
+        </footer>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
