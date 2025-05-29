@@ -226,3 +226,52 @@ document.head.appendChild(style);
 
 // Initialize
 console.log('AI Portfolio Generator initialized ✨');
+
+// Example templates
+function fillExample(type) {
+    const examples = {
+        junior: {
+            name: "Emma Thompson",
+            title: "Junior Frontend Developer",
+            experience: "1 year",
+            skills: "HTML, CSS, JavaScript, React, Git, Figma, responsive design",
+            about: "Recent bootcamp graduate passionate about creating user-friendly web interfaces. Background in graphic design brings a unique perspective to UI development.",
+            projects: "Built a responsive portfolio website for a local photographer using React and Tailwind CSS. Implemented lazy loading for images and achieved 95+ Lighthouse scores."
+        },
+        senior: {
+            name: "David Kumar",
+            title: "Senior Software Engineer",
+            experience: "8 years",
+            skills: "Java, Python, Kubernetes, Docker, AWS, microservices, React, system design, team leadership",
+            about: "Experienced in building scalable distributed systems and leading technical teams. Passionate about mentoring junior developers and implementing best practices.",
+            projects: "Led migration of monolithic e-commerce platform to microservices architecture, reducing deployment time by 75% and improving system reliability to 99.9% uptime."
+        },
+        fullstack: {
+            name: "Alex Rivera",
+            title: "Full Stack Developer",
+            experience: "4 years",
+            skills: "JavaScript, TypeScript, Node.js, React, PostgreSQL, MongoDB, Docker, AWS, GraphQL, REST APIs",
+            about: "Full stack developer who loves building end-to-end solutions. Strong focus on performance optimization and clean, maintainable code.",
+            projects: "Developed a real-time collaboration platform using React, Node.js, and WebSockets. Implemented features including live document editing, video chat, and real-time notifications for 5000+ daily active users."
+        }
+    };
+
+    const example = examples[type];
+    if (example) {
+        document.getElementById('name').value = example.name;
+        document.getElementById('title').value = example.title;
+        document.getElementById('experience').value = example.experience;
+        document.getElementById('skills').value = example.skills;
+        document.getElementById('about').value = example.about;
+        document.getElementById('projects').value = example.projects;
+        
+        // Visual feedback
+        const btn = event.target;
+        btn.style.background = 'var(--success-color)';
+        btn.textContent = '✓ Filled';
+        setTimeout(() => {
+            btn.style.background = '';
+            btn.textContent = btn.getAttribute('data-original') || btn.textContent;
+        }, 1000);
+    }
+}

@@ -59,6 +59,18 @@
                         <span class="loading-spinner" style="display: none;">⏳ Generating...</span>
                     </button>
                 </form>
+                
+                <div class="examples-section">
+                    <p style="margin-top: 1.5rem; color: var(--text-secondary); font-size: 0.9rem; text-align: center;">
+                        Need inspiration? Try an example:
+                    </p>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; justify-content: center;">
+                        <button type="button" onclick="fillExample('junior')" class="example-btn">👶 Junior Dev</button>
+                        <button type="button" onclick="fillExample('senior')" class="example-btn">🚀 Senior Dev</button>
+                        <button type="button" onclick="fillExample('fullstack')" class="example-btn">💪 Full Stack</button>
+                    </div>
+                </div>
+
             </section>
 
             <section id="portfolioOutput" class="output-section" style="display: none;">
