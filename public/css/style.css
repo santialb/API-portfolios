@@ -19,9 +19,16 @@
     --success-color: #10b981;
 }
 
+/* Add smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Updated body with gradient background */
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: var(--background);
+    background: linear-gradient(135deg, var(--background) 0%, #1a1f3a 100%);
+    background-attachment: fixed;
     color: var(--text-primary);
     line-height: 1.6;
     min-height: 100vh;
@@ -119,7 +126,7 @@ textarea {
     min-height: 80px;
 }
 
-/* Button Styles */
+/* Button Styles - Updated with glow effect */
 .generate-btn {
     width: 100%;
     padding: 1rem;
@@ -133,11 +140,12 @@ textarea {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
 }
 
 .generate-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
 }
 
 .generate-btn:active {
@@ -208,10 +216,19 @@ main.has-output .output-section {
     color: var(--text-secondary);
 }
 
+/* Portfolio Section - Updated with hover effects */
 .portfolio-section {
     margin-bottom: 2rem;
+    padding: 1rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.portfolio-section:hover {
+    background: rgba(99, 102, 241, 0.05);
+    border-color: var(--primary-color);
 }
 
 .portfolio-section:last-child {
@@ -296,12 +313,24 @@ main.has-output .output-section {
     font-weight: bold;
 }
 
-/* Footer */
+/* Footer - Updated with Groq badge */
 footer {
     text-align: center;
     padding: 2rem 0;
     color: var(--text-secondary);
     font-size: 0.9rem;
+}
+
+footer::after {
+    content: "⚡ Powered by Groq AI • Built with 💜 ";
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
 }
 
 /* Animations */
@@ -381,7 +410,25 @@ footer {
     background: var(--primary-color);
 }
 
-/* Example Buttons */
+/* Scrollbar Styling */
+.output-section::-webkit-scrollbar {
+    width: 8px;
+}
+
+.output-section::-webkit-scrollbar-track {
+    background: var(--surface-light);
+}
+
+.output-section::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+.output-section::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* Example Buttons  (RESTORED) */
 .example-btn {
     padding: 0.5rem 1rem;
     background: var(--surface-light);
@@ -396,7 +443,7 @@ footer {
 
 .example-btn:hover {
     background: var(--primary-color);
-    color: white;
+    color: #fff;
     border-color: var(--primary-color);
     transform: translateY(-2px);
 }
