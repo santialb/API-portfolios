@@ -56,21 +56,23 @@ h1 {
     font-size: 1.1rem;
 }
 
-/* Main Content */
+/* Main Content - Updated for centering */
 main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: center;
     gap: 2rem;
     margin-bottom: 3rem;
 }
 
-/* Input Section */
+/* Input Section - Updated width */
 .input-section {
     background: var(--surface);
     padding: 2rem;
     border-radius: 12px;
     border: 1px solid var(--border-color);
     animation: fadeInLeft 0.8s ease-out;
+    width: 100%;
+    max-width: 600px;
 }
 
 .input-section h2 {
@@ -147,7 +149,7 @@ textarea {
     animation: pulse 1.5s ease-in-out infinite;
 }
 
-/* Output Section */
+/* Output Section - Updated for dynamic layout */
 .output-section {
     background: var(--surface);
     padding: 2rem;
@@ -156,6 +158,21 @@ textarea {
     animation: fadeInRight 0.8s ease-out;
     max-height: 80vh;
     overflow-y: auto;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* When output is shown, update main layout */
+main.has-output {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+main.has-output .input-section,
+main.has-output .output-section {
+    max-width: none;
 }
 
 .output-header {
@@ -332,7 +349,8 @@ footer {
 
 /* Responsive Design */
 @media (max-width: 968px) {
-    main {
+    main,
+    main.has-output {
         grid-template-columns: 1fr;
     }
     
