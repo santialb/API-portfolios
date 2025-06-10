@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // Routes
+
 app.post('/api/generate-portfolio', async (req, res) => {
   try {
     const { developerInfo } = req.body;
@@ -72,6 +73,71 @@ app.post('/api/generate-portfolio', async (req, res) => {
   }
 });
 
+// GitHub Profile Route
+app.get('/api/github-profile/:username', async (req, res) => {
+    try {
+        const username = req.params.username;
+        console.log('Fetching GitHub profile for username:', username);
+        
+        // Fetch user profile
+        const userResponse = await axios.get(`https://api.github.com/users/${username}`, {
+            headers: {
+                'User-Agent': 'AI-Portfolio-Generator'
+            }
+        });
+        
+        // Fetch user repositories
+        const reposResponse = await axios.get(`https://api.github.com/users/${username}/repos`, {
+            params: {
+                sort: 'updated',
+                direction: 'desc',
+                per_page: 5
+            },
+            headers: {
+                'User-Agent': 'AI-Portfolio-Generator'
+            }
+        });
+
+        // Try to fetch README content
+        let readmeContent = null;
+        try {
+            const readmeResponse = await axios.get(`https://api.github.com/repos/${username}/${username}/readme`, {
+                headers: {
+                    'User-Agent': 'AI-Portfolio-Generator',
+                    'Accept': 'application/vnd.github.v3.raw'
+                }
+            });
+            readmeContent = readmeResponse.data;
+        } catch (readmeError) {
+            console.log('No README found for profile repository');
+        }
+
+        const profile = {
+            name: userResponse.data.name || username,
+            bio: userResponse.data.bio || 'Developer',
+            location: userResponse.data.location,
+            publicRepos: userResponse.data.public_repos,
+            followers: userResponse.data.followers,
+            company: userResponse.data.company,
+            blog: userResponse.data.blog,
+            email: userResponse.data.email,
+            readme: readmeContent, // Add README content
+            projects: reposResponse.data.map(repo => ({
+                name: repo.name,
+                description: repo.description,
+                stars: repo.stargazers_count,
+                language: repo.language,
+                url: repo.html_url,
+                topics: repo.topics || []
+            }))
+        };
+
+        res.json(profile);
+    } catch (error) {
+        console.error('GitHub API Error:', error.message);
+        res.status(404).json({ error: 'GitHub profile not found' });
+    }
+});
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
   console.log(`Using Groq AI (Free tier)`);

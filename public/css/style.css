@@ -447,3 +447,35 @@ footer::after {
     border-color: var(--primary-color);
     transform: translateY(-2px);
 }
+
+/* Mode Toggle Styles */
+.input-mode-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+.mode-btn {
+    padding: 0.5rem 1rem;
+    background: var(--surface-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mode-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.github-hint {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+}

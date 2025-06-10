@@ -6,14 +6,100 @@ const loadingSpinner = generateBtn.querySelector('.loading-spinner');
 const outputSection = document.getElementById('portfolioOutput');
 const portfolioContent = document.getElementById('portfolioContent');
 const mainElement = document.querySelector('main');
+// New mode toggle functionality
+document.getElementById('manualModeBtn').addEventListener('click', () => {
+    document.getElementById('manualInputSection').style.display = 'block';
+    document.getElementById('githubInputSection').style.display = 'none';
+    document.getElementById('examplesSection').style.display = 'block';
+    
+    // Clear GitHub username when switching to manual mode
+    document.getElementById('githubUsername').value = '';
+    
+    // Update button styles
+    document.getElementById('manualModeBtn').classList.add('active');
+    document.getElementById('githubModeBtn').classList.remove('active');
+});
 
+document.getElementById('githubModeBtn').addEventListener('click', () => {
+    document.getElementById('manualInputSection').style.display = 'none';
+    document.getElementById('githubInputSection').style.display = 'block';
+    document.getElementById('examplesSection').style.display = 'none';
+    
+    // Clear manual form fields when switching to GitHub mode
+    document.getElementById('name').value = '';
+    document.getElementById('title').value = '';
+    document.getElementById('experience').value = '';
+    document.getElementById('skills').value = '';
+    document.getElementById('about').value = '';
+    document.getElementById('projects').value = '';
+    
+    // Update button styles
+    document.getElementById('githubModeBtn').classList.add('active');
+    document.getElementById('manualModeBtn').classList.remove('active');
+});
 // Form submission handler
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    // Get form data
+    // Determine input mode
+    const isGitHubMode = document.getElementById('githubInputSection').style.display !== 'none';
+    
+    let developerInfo = null;
+    
+    // Show loading state
+    setLoadingState(true);
+    
+    try {
+        if (isGitHubMode) {
+    // GitHub mode
+    const githubUsername = document.getElementById('githubUsername').value.trim();
+    
+    if (!githubUsername) {
+        throw new Error('Please enter a GitHub username');
+    }
+    
+    const githubProfile = await fetchGitHubProfile(githubUsername);
+    
+    if (!githubProfile) {
+        throw new Error('Could not fetch GitHub profile');
+    }
+    
+    // Extract skills from README and repositories
+    const repoLanguages = [...new Set(githubProfile.projects.map(p => p.language).filter(Boolean))];
+    const repoTopics = [...new Set(githubProfile.projects.flatMap(p => p.topics || []))];
+    const allSkills = [...repoLanguages, ...repoTopics].slice(0, 15);
+    
+    // Build enhanced about section
+    let aboutText = githubProfile.bio || '';
+    if (githubProfile.readme) {
+        // Extract useful information from README (first few lines)
+        const readmeLines = githubProfile.readme.split('\n').slice(0, 10);
+        const meaningfulLines = readmeLines.filter(line => 
+            line.trim() && 
+            !line.startsWith('#') && 
+            !line.startsWith('![') && 
+            line.length > 20
+        );
+        if (meaningfulLines.length > 0) {
+            aboutText += meaningfulLines.slice(0, 3).join(' ');
+        }
+    }
+    
+    // Build developer info from GitHub data
+    developerInfo = {
+        name: githubProfile.name || githubUsername,
+        title: `${githubProfile.bio ? githubProfile.bio.substring(0, 50) : 'Software Developer'}${githubProfile.location ? ` based in ${githubProfile.location}` : ''}`,
+        experience: `Active GitHub developer with ${githubProfile.publicRepos} repositories and ${githubProfile.followers} followers`,
+        skills: allSkills.join(', '),
+        about: aboutText || `Passionate developer with expertise in ${repoLanguages.slice(0, 3).join(', ')}. Check out my ${githubProfile.publicRepos} projects on GitHub.`,
+        projects: githubProfile.projects.map(p => 
+            `${p.name}: ${p.description || 'Innovative project showcasing my skills'} (⭐ ${p.stars}, Language: ${p.language || 'Multiple'}, Topics: ${p.topics?.join(', ') || 'N/A'})`
+        ).join('\n\n')
+    };
+} else {
+    // Manual mode - ensure we only use manual data
     const formData = new FormData(form);
-    const developerInfo = {
+    developerInfo = {
         name: formData.get('name'),
         title: formData.get('title'),
         experience: formData.get('experience'),
@@ -22,10 +108,11 @@ form.addEventListener('submit', async (e) => {
         projects: formData.get('projects')
     };
     
-    // Show loading state
-    setLoadingState(true);
-    
-    try {
+    // Validate manual input
+    if (!developerInfo.name || !developerInfo.title) {
+        throw new Error('Please fill in at least Name and Title fields');
+    }
+}
         // Make API request
         const response = await fetch('/api/generate-portfolio', {
             method: 'POST',
@@ -200,7 +287,7 @@ function escapeHtml(text) {
 // Add message animations to the page
 const style = document.createElement('style');
 style.textContent = `
-    @keyframes slideIn {
+        @keyframes slideIn {
         from {
             transform: translateX(100%);
             opacity: 0;
@@ -273,5 +360,23 @@ function fillExample(type) {
             btn.style.background = '';
             btn.textContent = btn.getAttribute('data-original') || btn.textContent;
         }, 1000);
+    }
+}
+
+async function fetchGitHubProfile(username) {
+    try {
+        const response = await fetch(`/api/github-profile/${username}`);
+        
+        if (!response.ok) {
+            throw new Error('GitHub profile not found or API error');
+        }
+        
+        const profile = await response.json();
+        
+        return profile;
+    } catch (error) {
+        console.error('Error fetching GitHub profile:', error);
+        showErrorMessage(error.message || 'Could not fetch GitHub profile');
+        return null;
     }
 }

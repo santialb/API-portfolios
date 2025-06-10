@@ -16,42 +16,61 @@
 
         <main>
             <section class="input-section">
-                <h2>Tell us about yourself</h2>
+                <h2>Create Your Portfolio</h2>
+                
+                <!-- Toggle between manual and GitHub input -->
+                <div class="input-mode-toggle">
+                    <button type="button" id="manualModeBtn" class="mode-btn active">
+                        📝 Manual Input
+                    </button>
+                    <button type="button" id="githubModeBtn" class="mode-btn">
+                        🐙 GitHub Profile
+                    </button>
+                </div>
+
                 <form id="portfolioForm">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" required 
-                               placeholder="John Doe">
+                    <!-- Manual Input Section -->
+                    <div id="manualInputSection">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" placeholder="John Doe">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title">Current Title/Role</label>
+                            <input type="text" id="title" name="title" placeholder="Full Stack Developer">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="experience">Years of Experience</label>
+                            <input type="text" id="experience" name="experience" placeholder="3 years">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="skills">Skills (comma-separated)</label>
+                            <input type="text" id="skills" name="skills" placeholder="JavaScript, React, Node.js, Python, AWS">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="about">Brief About Yourself</label>
+                            <textarea id="about" name="about" rows="3" placeholder="Passionate about building scalable web applications..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="projects">Describe a Recent Project</label>
+                            <textarea id="projects" name="projects" rows="3" placeholder="Built an e-commerce platform using React and Node.js..."></textarea>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="title">Current Title/Role</label>
-                        <input type="text" id="title" name="title" required 
-                               placeholder="Full Stack Developer">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="experience">Years of Experience</label>
-                        <input type="text" id="experience" name="experience" 
-                               placeholder="3 years">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="skills">Skills (comma-separated)</label>
-                        <input type="text" id="skills" name="skills" required 
-                               placeholder="JavaScript, React, Node.js, Python, AWS">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="about">Brief About Yourself</label>
-                        <textarea id="about" name="about" rows="3" 
-                                  placeholder="Passionate about building scalable web applications..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="projects">Describe a Recent Project</label>
-                        <textarea id="projects" name="projects" rows="3" 
-                                  placeholder="Built an e-commerce platform using React and Node.js..."></textarea>
+                    <!-- GitHub Input Section -->
+                    <div id="githubInputSection" style="display: none;">
+                        <div class="form-group">
+                            <label for="githubUsername">GitHub Username</label>
+                            <input type="text" id="githubUsername" name="githubUsername" placeholder="Enter GitHub username">
+                        </div>
+                        <p class="github-hint">
+                            We'll fetch your profile information and repositories to generate your portfolio automatically.
+                        </p>
                     </div>
 
                     <button type="submit" class="generate-btn">
@@ -60,7 +79,7 @@
                     </button>
                 </form>
                 
-                <div class="examples-section">
+                <div class="examples-section" id="examplesSection">
                     <p style="margin-top: 1.5rem; color: var(--text-secondary); font-size: 0.9rem; text-align: center;">
                         Need inspiration? Try an example:
                     </p>
